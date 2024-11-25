@@ -1,2 +1,1 @@
-# fastapi-CBV
-Django class based views for fastapi
+pip install fastapi-class-views
