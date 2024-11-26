@@ -1,24 +1,20 @@
-from fastapi import Request, Response
+from fastapi import Request, Response, HTTPException
 from fastapi.responses import JSONResponse
+from typing import Type, Any
 
-# Define the BaseView class
 class BaseView:
     def __init__(self, request: Request, response_class=JSONResponse):
         self.request = request
         self.response_class = response_class
 
-    # Method to handle GET requests
     async def get(self, *args, **kwargs):
-        return self.response_class(content={"message": "GET method not implemented"})
+        raise HTTPException(status_code=405, detail="GET method not allowed")
 
-    # Method to handle POST requests
     async def post(self, *args, **kwargs):
-        return self.response_class(content={"message": "POST method not implemented"})
+        raise HTTPException(status_code=405, detail="POST method not allowed")
 
-    # Method to handle PUT requests
     async def put(self, *args, **kwargs):
-        return self.response_class(content={"message": "PUT method not implemented"})
+        raise HTTPException(status_code=405, detail="PUT method not allowed")
 
-    # Method to handle DELETE requests
     async def delete(self, *args, **kwargs):
-        return self.response_class(content={"message": "DELETE method not implemented"})
+        raise HTTPException(status_code=405, detail="DELETE method not allowed")

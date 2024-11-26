@@ -1,34 +1,15 @@
-from fastapi import Request
-from pydantic import BaseModel, ValidationError
-from typing import Any, Dict
+from fastapi.routing import APIRouter
+from fastapi_class_views.base_view import BaseView
+from typing import Type
 
-def get_request_data(request: Request) -> Dict[str, Any]:
-    """
-    Extracts data from the request object.
-    
-    Args:
-        request (Request): The FastAPI request object.
-        
-    Returns:
-        Dict[str, Any]: A dictionary containing the request data.
-    """
-    # Assuming the request data is in JSON format
-    return request.json()
-
-def validate_data(data: Dict[str, Any], schema: BaseModel) -> None:
-    """
-    Validates request data against a schema.
-    
-    Args:
-        data (Dict[str, Any]): The data to validate.
-        schema (BaseModel): The Pydantic model to validate against.
-        
-    Raises:
-        ValidationError: If the data does not conform to the schema.
-    """
-    try:
-        # Validate the data using the provided Pydantic schema
-        schema(**data)
-    except ValidationError as e:
-        # Raise the validation error if data is invalid
-        raise e
+def create_view_routes(view_cls: Type[BaseView], path: str, methods: list = ["get", "post", "put", "delete"]) -> APIRouter:
+    router = APIRouter()
+    for method in methods:
+        if hasattr(view_cls, method):
+            router.add_api_route(
+                path=path,
+                endpoint=getattr(view_cls, method),
+                methods=[method.upper()],
+                response_class=view_cls.response_class
+            )
+    return router

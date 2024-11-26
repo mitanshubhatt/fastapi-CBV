@@ -1,13 +1,16 @@
+import os
 from setuptools import setup, find_packages
+
+def read_requirements():
+    filepath = os.path.join("requirements", "requirements.in")
+    with open(filepath, "r") as file:
+        return file.read().splitlines()
 
 setup(
     name="fastapi_class_views",
     version="0.1.0",
     packages=find_packages(),
-    install_requires=[
-        "fastapi",
-        "pydantic",
-    ],
+    install_requires=read_requirements(),
     author="Your Name",
     author_email="mitubhatt670@gmail.com",
     description="A library for class-based views in FastAPI.",

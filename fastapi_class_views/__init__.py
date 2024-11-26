@@ -1,6 +1,6 @@
 # Import the necessary components from the respective modules
 from .base_view import BaseView
-from .mixins import AuthMixin, PaginationMixin
+from .model_view import AuthMixin, PaginationMixin
 from .decorators import cache_response, log_request
 from .utils import get_request_data, validate_data
 
